@@ -1,7 +1,15 @@
 import mysql.connector as mysql
 
-con = mysql.connect(user='root', password='root',
-                host='127.0.0.1',database='TestDB')
+
+config = {
+        'user': 'root',
+        'password': 'root',
+        'host': 'localhost',
+        'port': '3306',
+        'database': 'testdb'
+    }
+
+con = mysql.connect(**config)
 
 con.close()
 
@@ -9,7 +17,7 @@ def createSchema():
     checkConnection()
     cur = con.cursor()
     try:
-       # cur.execute("create database TestDB")
+        cur.execute("create database testdb")
         cur.execute("CREATE TABLE testdb.addressbook (id INT NOT NULL AUTO_INCREMENT,name VARCHAR(45) NOT NULL, address VARCHAR(300) NOT NULL, phone BIGINT(10) NULL, mobilePhone BIGINT(10) NULL, email VARCHAR(45) NULL, PRIMARY KEY (id, name));")
     except:
         con.rollback()
@@ -21,7 +29,7 @@ def addPerson(personData):
     if personNameResult[0]:
         personNameResult[0]=False
         return personNameResult
-    elif " gives an error" in personNameResult[1]:
+    elif personNameResult[0] is None:
         return personNameResult
 
     checkConnection()
@@ -31,7 +39,7 @@ def addPerson(personData):
         con.commit()
         return [True,""]
     except:
-        return [False,"It gives an error while adding it to the database."]
+        return [None,"It gives an error while adding it to the database."]
     finally:
         cur.close()
         con.close()
@@ -133,7 +141,7 @@ def isPersonName(personName):
         else:
             return [True,"There is this person in the database."]
     except:
-        return [False,"It gives an error while adding it to the database."]
+        return [None,"It gives an error while adding it to the database."]
     finally:
         cur.close()
         con.close()
