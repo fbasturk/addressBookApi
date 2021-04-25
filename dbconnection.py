@@ -1,27 +1,18 @@
 import mysql.connector as mysql
 
+DATABASE_NAME="dockerdb"
 
 config = {
         'user': 'root',
         'password': 'root',
-        'host': 'localhost',
+        'host': 'adressbook-db',
         'port': '3306',
-        'database': 'testdb'
+        'database': DATABASE_NAME
     }
 
 con = mysql.connect(**config)
 
 con.close()
-
-def createSchema():
-    checkConnection()
-    cur = con.cursor()
-    try:
-        cur.execute("create database testdb")
-        cur.execute("CREATE TABLE testdb.addressbook (id INT NOT NULL AUTO_INCREMENT,name VARCHAR(45) NOT NULL, address VARCHAR(300) NOT NULL, phone BIGINT(10) NULL, mobilePhone BIGINT(10) NULL, email VARCHAR(45) NULL, PRIMARY KEY (id, name));")
-    except:
-        con.rollback()
-    cur.close()
 
 def addPerson(personData):
     personNameResult= isPersonName(personData['name'])
@@ -35,7 +26,7 @@ def addPerson(personData):
     checkConnection()
     cur = con.cursor()
     try:
-        cur.execute("insert into testdb.addressbook (name, address, phone, mobilePhone, email) values ('"+personData['name']+"','"+personData['address']+"',"+str(personData['phone'])+", "+str(personData['mobilePhone'])+",'"+personData['email']+"');")  
+        cur.execute("insert into "+DATABASE_NAME+".addressbook (name, address, phone, mobilePhone, email) values ('"+personData['name']+"','"+personData['address']+"',"+str(personData['phone'])+", "+str(personData['mobilePhone'])+",'"+personData['email']+"');")  
         con.commit()
         return [True,""]
     except:
@@ -55,7 +46,7 @@ def deletePerson(personName):
     checkConnection()
     cur = con.cursor()
     try:
-        cur.execute("delete from testdb.addressbook WHERE name='"+personName+"';")  
+        cur.execute("delete from "+DATABASE_NAME+".addressbook WHERE name='"+personName+"';")  
         con.commit()
         return [True,""]
     except:
@@ -83,7 +74,7 @@ def updatePerson(personName,data):
     checkConnection()
     cur = con.cursor()
     try:
-        cur.execute("UPDATE testdb.addressbook SET name='"+tempData['name']+"', address='"+tempData['address']+"', phone="+str(tempData['phone'])+", mobilePhone="+str(tempData['mobilePhone'])+", email='"+tempData['email']+"' WHERE id = "+str(tempData['id'])+";")  
+        cur.execute("UPDATE "+DATABASE_NAME+".addressbook SET name='"+tempData['name']+"', address='"+tempData['address']+"', phone="+str(tempData['phone'])+", mobilePhone="+str(tempData['mobilePhone'])+", email='"+tempData['email']+"' WHERE id = "+str(tempData['id'])+";")  
         con.commit()
         return [True,tempData]
     except:
@@ -110,7 +101,7 @@ def getPerson(data):
     checkConnection()
     cur = con.cursor()
     try:
-        cur.execute("SELECT * FROM testdb.addressbook where name='"+searchData['name']+"' or address='"+searchData['address']+"' or phone="+str(searchData['phone'])+"  or mobilePhone="+str(searchData['mobilePhone'])+"  or email='"+searchData['email']+"';")
+        cur.execute("SELECT * FROM "+DATABASE_NAME+".addressbook where name='"+searchData['name']+"' or address='"+searchData['address']+"' or phone="+str(searchData['phone'])+"  or mobilePhone="+str(searchData['mobilePhone'])+"  or email='"+searchData['email']+"';")
         row = cur.fetchone()
         if row is None:
             return [False,"There is not this person in the database."]
@@ -134,7 +125,7 @@ def isPersonName(personName):
     checkConnection()
     cur = con.cursor()
     try:
-        cur.execute("SELECT * FROM testdb.addressbook where name='"+personName+"';")
+        cur.execute("SELECT * FROM "+DATABASE_NAME+".addressbook where name='"+personName+"';")
         row = cur.fetchone()
         if row is None:
             return [False,"There is not this person in the database."]

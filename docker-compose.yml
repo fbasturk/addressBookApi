@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+  backend:
+    container_name: adressbook-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+  db:
+    container_name: adressbook-db
+    image: mysql:5.7.22
+    restart: always
+    environment:
+      MYSQL_DATABASE: dockerdb
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - 3307:3306

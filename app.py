@@ -7,12 +7,6 @@ app = Flask(__name__)
 
 @app.route("/", methods = ["GET","POST"])
 def index():
-
-    return response_success(None,200)
-
-@app.route("/createDB", methods = ["GET","POST"])
-def createDB():
-    db.createSchema()
     return response_success(None,200)
 
 @app.route("/address-books" , methods = ["POST"])
