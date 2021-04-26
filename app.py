@@ -15,6 +15,7 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
         'app_name': "Adressbook Api"
     }
 )
+
 app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 
