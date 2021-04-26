@@ -1,6 +1,7 @@
 from flask import Flask ,request , make_response, jsonify
 from flask_swagger_ui import get_swaggerui_blueprint
 import re
+import os
 import dbconnection as db
 import utils
 
@@ -90,5 +91,8 @@ def response_success(message, status_code):
         message = {'succesCode': status_code, 'data': message}
     return make_response(jsonify(message), status_code)
 
+ 
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    PORT = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=PORT, debug=False)

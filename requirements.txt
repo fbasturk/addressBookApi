@@ -1,3 +1,4 @@
 Flask==1.1.2
 mysql-connector-python==8.0.24
 flask-swagger-ui==3.36.0
+gunicorn==20.1.0
