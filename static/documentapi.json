@@ -1,0 +1,246 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Adressbook Api"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Addressbook Request",
+      "description": "Example API for requesting"
+    }
+  ],
+  "paths": {
+    "/address-books/{data}": {
+		"parameters": [
+          {
+            "name": "data",
+            "in": "path",
+            "required": true,
+            "description": "Any parameter of the cat we want to match",
+            "type": "string"
+          }
+        ],
+      "get": {
+        "tags": [
+          "Addressbook Request"
+        ],
+        "summary": "Returns a person from addressbook",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/getAddressbooks"
+            }
+          },
+		  "400": {
+            "description": "Failed. Bad post data.",
+            "schema": {
+              "$ref": "#/components/schemas/badrequest"
+            }
+          }
+        }
+      }
+    },
+	"/address-books": {
+      "post": {
+        "tags": [
+          "Addressbook Request"
+        ],
+        "summary": "Create a person request",
+		"requestBody": {
+          "description": "Addressbook Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/addAddressbooksBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Failed. Bad post data.",
+            "schema": {
+              "$ref": "#/components/schemas/badrequest"
+			}
+          }
+        }
+      }
+    },
+    "/address-books/{name}": {
+      "parameters": [
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "description": "name of the cat that we want to match",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "summary": "edit a person request by name",
+        "tags": [
+          "Addressbook Request"
+        ],
+        "requestBody": {
+          "description": "Addressbook Request Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateAddresbooksBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/getAddressbooks"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data.",
+            "schema": {
+              "$ref": "#/components/schemas/badrequest"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Addressbook Request by name",
+        "tags": [
+          "Addressbook Request"
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Failed. Bad post data.",
+            "schema": {
+              "$ref": "#/components/schemas/badrequest"
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "getAddressbooks": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "format": "number"
+                },
+                "name": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "phone": {
+                  "type": "number",
+                  "format": "number"
+                },
+                "mobilePhone": {
+                  "type": "number",
+                  "format": "number"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                }
+              }
+            }
+          },
+          "succesCode": {
+            "type": "number",
+            "format": "number"
+          }
+        }
+      },
+      "addAddressbooksBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "address": {
+            "type": "string",
+            "format": "string"
+          },
+          "phone": {
+            "type": "number",
+            "format": "number"
+          }
+        }
+      },
+      "updateAddresbooksBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "address": {
+            "type": "string",
+            "format": "string"
+          },
+          "phone": {
+            "type": "number",
+            "format": "number"
+          },
+          "mobilePhone": {
+            "type": "number",
+            "format": "number"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "badrequest": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "number",
+            "format": "number"
+          },
+          "errorMessage": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    }
+  }
+}

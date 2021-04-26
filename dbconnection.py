@@ -3,9 +3,9 @@ import mysql.connector as mysql
 DATABASE_NAME="dockerdb"
 
 config = {
-        'user': 'root',
+        'user': 'adressbook',
         'password': 'root',
-        'host': 'adressbook-db',
+        'host': 'mysqldb',
         'port': '3306',
         'database': DATABASE_NAME
     }

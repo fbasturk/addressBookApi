@@ -1,13 +1,26 @@
 from flask import Flask ,request , make_response, jsonify
+from flask_swagger_ui import get_swaggerui_blueprint
 import re
 import dbconnection as db
 import utils
 
 app = Flask(__name__)
 
+SWAGGER_URL = '/swagger'
+API_URL = '/static/documentapi.json'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Adressbook Api"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+
+
 @app.route("/", methods = ["GET","POST"])
 def index():
-    return response_success(None,200)
+    return response_success([True,"Connection Address Book API"],200)
 
 @app.route("/address-books" , methods = ["POST"])
 def addAddressbooks():
@@ -36,7 +49,7 @@ def deleteAddressbooks(name):
     if not dbResult[0]:
         return response_error(dbResult[1],400) 
    
-    return response_success(name+" is deleted",200)
+    return response_success(name+" is deleted",204)
 
 @app.route("/address-books/<string:name>", methods = ["PUT"])
 def updateAddresbooks(name):
@@ -54,7 +67,7 @@ def updateAddresbooks(name):
     if not dbResult[0]:
         return response_error(dbResult[1],400) 
    
-    return response_success(None,204)
+    return response_success(dbResult[1],200)
 
 @app.route("/address-books/<string:data>", methods = ["GET"])
 def getAddressbooks(data):
