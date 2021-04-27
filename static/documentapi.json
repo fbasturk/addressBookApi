@@ -166,12 +166,12 @@
                   "format": "string"
                 },
                 "phone": {
-                  "type": "number",
-                  "format": "number"
+                  "type": "string",
+                  "format": "string"
                 },
                 "mobilePhone": {
-                  "type": "number",
-                  "format": "number"
+                  "type": "string",
+                  "format": "string"
                 },
                 "email": {
                   "type": "string",
@@ -198,8 +198,8 @@
             "format": "string"
           },
           "phone": {
-            "type": "number",
-            "format": "number"
+            "type": "string",
+            "format": "string"
           }
         }
       },
@@ -215,12 +215,12 @@
             "format": "string"
           },
           "phone": {
-            "type": "number",
-            "format": "number"
+            "type": "string",
+            "format": "string"
           },
           "mobilePhone": {
-            "type": "number",
-            "format": "number"
+            "type": "string",
+            "format": "string"
           },
           "email": {
             "type": "string",
